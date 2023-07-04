@@ -1,0 +1,6 @@
+# Env related
+env
+.env
+
+# Vscode
+settings.json
