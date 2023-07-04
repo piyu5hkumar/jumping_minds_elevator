@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv, find_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_path = os.path.join(BASE_DIR, '.env')
+load_dotenv(find_dotenv(), override=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -74,9 +78,13 @@ WSGI_APPLICATION = "jumping_minds_elevator.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': os.environ["ENGINE_PSQL"],
+        'NAME': os.environ["NAME_PSQL"],
+        'USER': os.environ["USER_PSQL"],
+        'PASSWORD': os.environ["PASSWORD_PSQL"],
+        'HOST': os.environ["HOST_PSQL"],
+        'PORT': os.environ["PORT_PSQL"],
     }
 }
 

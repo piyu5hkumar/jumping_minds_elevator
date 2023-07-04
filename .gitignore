@@ -4,3 +4,4 @@ env
 
 # Vscode
 settings.json
+__pycache__
