@@ -11,6 +11,7 @@ class ElevatorViewSet(viewsets.ModelViewSet):
     serializer_class = ElevatorSerializer
 
     def get_queryset(self):
+        # Retrieve active, operational, and non-maintenance elevators
         queryset = Elevator.objects.filter(
             is_active=True, number__gt=0, is_operational=True, is_maintenance=False
         )
@@ -39,6 +40,7 @@ class ElevatorViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["POST"])
     def move_elevator(self, request, pk):
+        # Retrieve the specific elevator instance
         elevator_instance = Elevator.objects.filter(
             number=pk, is_active=True, is_maintenance=False, is_operational=True
         ).first()
@@ -55,6 +57,7 @@ class ElevatorViewSet(viewsets.ModelViewSet):
 
             current_floor = elevator_instance.current_floor
 
+            # Determine the direction of the elevator
             elevator_instance.direction = (
                 ElevatorDirections.UP
                 if current_floor < next_floor
@@ -64,6 +67,7 @@ class ElevatorViewSet(viewsets.ModelViewSet):
             elevator_instance.is_running = True
             elevator_instance.current_floor = next_floor
 
+            # Update the elevator's movement in Redis
             redis_utils.move_elevator(elevator_number=elevator_instance.number)
 
             total_moves_left = redis_utils.conn.llen(
@@ -71,6 +75,7 @@ class ElevatorViewSet(viewsets.ModelViewSet):
             )
 
             if not total_moves_left:
+                # Set elevator as idle and not running if no more moves are left
                 elevator_instance.direction = ElevatorDirections.IDLE
                 elevator_instance.is_running = False
 
@@ -92,6 +97,7 @@ class UserRequestViewSet(
     serializer_class = UserRequestSerializer
 
     def create(self, request, *args, **kwargs):
+        # Create a new user request
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         new_request_instance = serializer.save()
