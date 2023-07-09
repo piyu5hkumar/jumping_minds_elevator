@@ -40,10 +40,10 @@ class ElevatorViewSet(viewsets.ModelViewSet):
             )
 
     @action(detail=True, methods=["POST"])
-    def move_elevator(self, request, pk):
+    def move_elevator(self, request, number):
         # Retrieve the specific elevator instance
         elevator_instance = Elevator.objects.filter(
-            number=pk, is_active=True, is_maintenance=False, is_operational=True
+            number=number, is_active=True, is_maintenance=False, is_operational=True
         ).first()
 
         if not elevator_instance:
