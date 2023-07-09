@@ -9,6 +9,7 @@ from elevator.models_choices import ElevatorDirections
 
 class ElevatorViewSet(viewsets.ModelViewSet):
     serializer_class = ElevatorSerializer
+    lookup_field = "number"
 
     def get_queryset(self):
         # Retrieve active, operational, and non-maintenance elevators
