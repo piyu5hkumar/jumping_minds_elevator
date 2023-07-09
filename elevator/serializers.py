@@ -22,7 +22,7 @@ class ElevatorSerializer(serializers.ModelSerializer):
         all_available_moves_str = redis_utils.get_elevators_moves(
             elevator_number=instance.number
         )
-        all_available_moves = map(int, all_available_moves_str)
+        all_available_moves = [int(move) for move in all_available_moves_str]
 
         # Categorize user requests as completed or not completed based on available moves
         representation_data["user_request_not_completed"] = []
