@@ -17,7 +17,7 @@ from dotenv import load_dotenv, find_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv_path = os.path.join(BASE_DIR, '.env')
+dotenv_path = os.path.join(BASE_DIR, ".env")
 load_dotenv(find_dotenv(), override=True)
 
 # Quick-start development settings - unsuitable for production
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "elevator",
 ]
 
 MIDDLEWARE = [
@@ -78,13 +80,13 @@ WSGI_APPLICATION = "jumping_minds_elevator.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': os.environ["ENGINE_PSQL"],
-        'NAME': os.environ["NAME_PSQL"],
-        'USER': os.environ["USER_PSQL"],
-        'PASSWORD': os.environ["PASSWORD_PSQL"],
-        'HOST': os.environ["HOST_PSQL"],
-        'PORT': os.environ["PORT_PSQL"],
+    "default": {
+        "ENGINE": os.environ["ENGINE_PSQL"],
+        "NAME": os.environ["NAME_PSQL"],
+        "USER": os.environ["USER_PSQL"],
+        "PASSWORD": os.environ["PASSWORD_PSQL"],
+        "HOST": os.environ["HOST_PSQL"],
+        "PORT": os.environ["PORT_PSQL"],
     }
 }
 
@@ -129,3 +131,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Redis Setting
+REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = os.environ.get("REDIS_PORT")
